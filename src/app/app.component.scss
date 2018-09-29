@@ -1,0 +1,30 @@
+@import url("//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css");
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
+
+.loc-caption:before {
+  content: attr(title);
+  display: block;
+  color: #474290;
+  font-weight: 300;
+}
+
+ul {
+  text-align: center;
+  padding: 0;
+}
+ h2 {
+    text-align: center;
+    color: #474290;
+    padding-top: 50px;
+    padding: 10px;
+ }
+li {
+  width: 25%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+li img {
+  max-width: 100%;
+  height: auto;
+}

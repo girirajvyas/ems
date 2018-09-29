@@ -1,7 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { UploadComponent } from './upload/upload.component';
+import { EmployeeListComponent } from './employee-list/employee-list.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  { path: 'upload', component: UploadComponent },
+  { path: 'list', component: EmployeeListComponent }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
