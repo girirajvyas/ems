@@ -9,20 +9,24 @@ import { AppSettings } from '../shared/app.settings';
   styleUrls: ['./employee-list.component.scss']
 })
 export class EmployeeListComponent implements OnInit {
-  public data : any;
-  size : number;
+  public data: Employee[];
+  size: number;
   rowsOnPageSet: any;
-  employees: Employee[];
-  constructor(private employeeService : EmployeeService) { }
+  dataFound: boolean = false;
+
+  constructor(private employeeService: EmployeeService) { }
 
   ngOnInit() {
     this.size = AppSettings.ROWS_ON_PAGE;
     this.rowsOnPageSet = AppSettings.ROWS_ON_PAGE_SET;
-    console.log(this.rowsOnPageSet);
-   this.employeeService.getValidEmployeeRecords().subscribe(
-     res => this.data = res
-   );
-  }
-  
 
+    this.employeeService.getValidEmployeeRecords().subscribe(
+      res => {
+        this.data = res;
+        if(this.data.length > 0){
+          this.dataFound = true;
+        }
+      }
+    );
+  }
 }

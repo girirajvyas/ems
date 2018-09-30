@@ -14,13 +14,13 @@ export class EmployeeService {
   private baseUrl: string = AppSettings.BASE_URL;
 
   getValidEmployeeRecords() : Observable<Employee[]>{
-    return this.getValidRecordsFromBootApp();
-    //return this.getValidRecordsFromMock();
+    // return this.getValidRecordsFromBootApp();
+     return this.getValidRecordsFromMock();
   }
 
   getErroredEmployeeRecords() : Observable<Employee[]>{
-    return this.getErroredRecordsFromBootApp();
-    // return this.getErroredRecordsFromMock();
+    // return this.getErroredRecordsFromBootApp();
+     return this.getErroredRecordsFromMock();
   }
 
   private getValidRecordsFromBootApp(){

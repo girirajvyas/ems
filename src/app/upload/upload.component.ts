@@ -32,14 +32,17 @@ export class UploadComponent implements OnInit {
       }
     };
     
-    // fetch errored data
-    this.employeeService.getErroredEmployeeRecords().subscribe(
-      res => this.erroredData = res
-     );
+    
   }
 
   exportAsXLSX():void {
-    this.excelService.exportAsExcelFile(this.erroredData, 'ErroredData');
+    // fetch errored data
+    this.employeeService.getErroredEmployeeRecords().subscribe(
+      res => {
+        this.erroredData = res;
+        this.excelService.exportAsExcelFile(this.erroredData, 'ErroredData');
+      }
+     );
  }
 
 }
