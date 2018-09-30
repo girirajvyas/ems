@@ -200,7 +200,7 @@ var AppModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"listDiv\">\n<table class=\"table table-striped\" [mfData]=\"data\" #mf=\"mfDataTable\" mfRowsOnPage=\"{{size}}\">\n    <thead>\n    <tr>\n        <th style=\"width: 25%\">\n            <mfDefaultSorter by=\"name\">Name</mfDefaultSorter>\n        </th>\n        <th style=\"width: 20%\">\n            <mfDefaultSorter by=\"email\">Department</mfDefaultSorter>\n        </th>\n        <th style=\"width: 25%\">\n            <mfDefaultSorter by=\"age\">Designation</mfDefaultSorter>\n        </th>\n        <th style=\"width: 15%\">\n            <mfDefaultSorter by=\"city\">Salary</mfDefaultSorter>\n        </th>\n        <th style=\"width: 10%\">\n            <mfDefaultSorter by=\"city\">Joining Date</mfDefaultSorter>\n        </th>\n    </tr>\n    </thead>\n    <tbody>\n    <tr *ngFor=\"let item of mf.data\">\n        <td>{{item.name}}</td>\n        <td>{{item.department}}</td>\n        <td>{{item.designation}}</td>\n        <td>{{item.salary}}</td>\n        <td>{{item.joiningDate}}</td>\n    </tr>\n    </tbody>\n    <tfoot>\n    <tr>\n        <td colspan=\"4\">\n            <mfBootstrapPaginator [rowsOnPageSet]=\"rowsOnPageSet\"></mfBootstrapPaginator>\n        </td>\n    </tr>\n    </tfoot>\n</table>\n</div>"
+module.exports = "<div class=\"noDataDiv\" *ngIf=\"!dataFound\">\n    No records found, Please upload data !\n</div>\n<div class=\"listDiv\" *ngIf=\"dataFound\">\n<table class=\"table table-striped\" [mfData]=\"data\" #mf=\"mfDataTable\" mfRowsOnPage=\"{{size}}\">\n    <thead>\n    <tr>\n        <th style=\"width: 25%\">\n            <mfDefaultSorter by=\"name\">Name</mfDefaultSorter>\n        </th>\n        <th style=\"width: 20%\">\n            <mfDefaultSorter by=\"department\">Department</mfDefaultSorter>\n        </th>\n        <th style=\"width: 25%\">\n            <mfDefaultSorter by=\"designation\">Designation</mfDefaultSorter>\n        </th>\n        <th style=\"width: 15%\">\n            <mfDefaultSorter by=\"salary\">Salary</mfDefaultSorter>\n        </th>\n        <th style=\"width: 10%\">\n            <mfDefaultSorter by=\"joiningDate\">Joining Date</mfDefaultSorter>\n        </th>\n    </tr>\n    </thead>\n    <tbody>\n    <tr *ngFor=\"let item of mf.data\">\n        <td>{{item.name}}</td>\n        <td>{{item.department}}</td>\n        <td>{{item.designation}}</td>\n        <td>{{item.salary}}</td>\n        <td>{{item.joiningDate}}</td>\n    </tr>\n    </tbody>\n    <tfoot>\n    <tr>\n        <td colspan=\"4\">\n            <mfBootstrapPaginator [rowsOnPageSet]=\"rowsOnPageSet\"></mfBootstrapPaginator>\n        </td>\n    </tr>\n    </tfoot>\n</table>\n</div>"
 
 /***/ }),
 
@@ -211,7 +211,7 @@ module.exports = "<div class=\"listDiv\">\n<table class=\"table table-striped\" 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".listDiv {\n  padding-top: 3%;\n  padding-left: 30%;\n  width: 920px; }\n"
+module.exports = ".listDiv {\n  padding-top: 3%;\n  padding-left: 30%;\n  width: 920px; }\n\n.noDataDiv {\n  padding-top: 3%;\n  padding-left: 30%;\n  width: 920px;\n  color: brown;\n  font-size: 20px; }\n"
 
 /***/ }),
 
@@ -243,13 +243,18 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 var EmployeeListComponent = /** @class */ (function () {
     function EmployeeListComponent(employeeService) {
         this.employeeService = employeeService;
+        this.dataFound = false;
     }
     EmployeeListComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.size = _shared_app_settings__WEBPACK_IMPORTED_MODULE_2__["AppSettings"].ROWS_ON_PAGE;
         this.rowsOnPageSet = _shared_app_settings__WEBPACK_IMPORTED_MODULE_2__["AppSettings"].ROWS_ON_PAGE_SET;
-        console.log(this.rowsOnPageSet);
-        this.employeeService.getValidEmployeeRecords().subscribe(function (res) { return _this.data = res; });
+        this.employeeService.getValidEmployeeRecords().subscribe(function (res) {
+            _this.data = res;
+            if (_this.data.length > 0) {
+                _this.dataFound = true;
+            }
+        });
     };
     EmployeeListComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -301,12 +306,12 @@ var EmployeeService = /** @class */ (function () {
         this.baseUrl = _shared_app_settings__WEBPACK_IMPORTED_MODULE_3__["AppSettings"].BASE_URL;
     }
     EmployeeService.prototype.getValidEmployeeRecords = function () {
-        // return this.getValidRecordsFromBootApp();
-        return this.getValidRecordsFromMock();
+        return this.getValidRecordsFromBootApp();
+        // return this.getValidRecordsFromMock();
     };
     EmployeeService.prototype.getErroredEmployeeRecords = function () {
-        // return this.getErroredRecordsFromBootApp();
-        return this.getErroredRecordsFromMock();
+        return this.getErroredRecordsFromBootApp();
+        // return this.getErroredRecordsFromMock();
     };
     EmployeeService.prototype.getValidRecordsFromBootApp = function () {
         return this.http.get(this.baseUrl + "/employees?erroredRecord=false");
@@ -631,7 +636,7 @@ var ExcelService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"uploadDiv\">\n      <div class=\"fileUploadDiv\">\n            <angular-file-uploader [config]=\"afuConfig\">\n            </angular-file-uploader>\n      </div>\n      <div class=\"exportToExcelDiv\">\n            <h4>Errored records:</h4> \n            <button (click)=\"exportAsXLSX()\">\n                  <i class=\"fa fa-file-excel-o\" style=\"font-size:18px;color:blue\"></i\n            ></button>\n      </div>\n</div>"
+module.exports = "<div class=\"uploadDiv\">\n      <div class=\"fileUploadDiv\">\n            <angular-file-uploader [config]=\"afuConfig\">\n            </angular-file-uploader>\n      </div>\n      <div class=\"exportToExcelDiv\">\n            <h4>Export records with error:</h4> \n            <button (click)=\"exportAsXLSX()\">\n                  <i class=\"fa fa-file-excel-o\" style=\"font-size:18px;color:blue\"></i\n            ></button>\n      </div>\n</div>"
 
 /***/ }),
 
@@ -680,7 +685,6 @@ var UploadComponent = /** @class */ (function () {
         this.erroredData = [];
     }
     UploadComponent.prototype.ngOnInit = function () {
-        var _this = this;
         // Configurable Property from env.js
         this.uploadUrl = _shared_app_settings__WEBPACK_IMPORTED_MODULE_1__["AppSettings"].UPLOAD_URL;
         this.maxSize = _shared_app_settings__WEBPACK_IMPORTED_MODULE_1__["AppSettings"].UPLOAD_MAX_SIZE;
@@ -692,11 +696,14 @@ var UploadComponent = /** @class */ (function () {
                 url: this.uploadUrl
             }
         };
-        // fetch errored data
-        this.employeeService.getErroredEmployeeRecords().subscribe(function (res) { return _this.erroredData = res; });
     };
     UploadComponent.prototype.exportAsXLSX = function () {
-        this.excelService.exportAsExcelFile(this.erroredData, 'ErroredData');
+        var _this = this;
+        // fetch errored data
+        this.employeeService.getErroredEmployeeRecords().subscribe(function (res) {
+            _this.erroredData = res;
+            _this.excelService.exportAsExcelFile(_this.erroredData, 'ErroredData');
+        });
     };
     UploadComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
