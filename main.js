@@ -306,12 +306,12 @@ var EmployeeService = /** @class */ (function () {
         this.baseUrl = _shared_app_settings__WEBPACK_IMPORTED_MODULE_3__["AppSettings"].BASE_URL;
     }
     EmployeeService.prototype.getValidEmployeeRecords = function () {
-        return this.getValidRecordsFromBootApp();
-        // return this.getValidRecordsFromMock();
+        // return this.getValidRecordsFromBootApp();
+        return this.getValidRecordsFromMock();
     };
     EmployeeService.prototype.getErroredEmployeeRecords = function () {
-        return this.getErroredRecordsFromBootApp();
-        // return this.getErroredRecordsFromMock();
+        // return this.getErroredRecordsFromBootApp();
+        return this.getErroredRecordsFromMock();
     };
     EmployeeService.prototype.getValidRecordsFromBootApp = function () {
         return this.http.get(this.baseUrl + "/employees?erroredRecord=false");
